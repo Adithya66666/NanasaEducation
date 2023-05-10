@@ -87,6 +87,10 @@ class ModuleItemView : AppCompatActivity() {
         }
         binding.grades.setOnClickListener{
             //pass module id
+            var intent = Intent(this,YourGrades::class.java).also {
+                it.putExtra("moduleId",moduleId.toString())
+            }
+            startActivity(intent)
         }
     }
 

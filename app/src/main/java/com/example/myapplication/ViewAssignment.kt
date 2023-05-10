@@ -361,17 +361,32 @@ class ViewAssignment : AppCompatActivity() {
         
         if(uploadPdfText.toString() != "Upload your document"){
 
-            var submit = Submit(moduleId,assignmentId,submitId,user.uid.toString(),currentTime.toString(),currentDate.toString(),"n/a","pending")
-            FirebaseDatabase.getInstance().getReference("Submit").child(submitId).setValue(submit).addOnSuccessListener {
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-                binding.loaderLayout.visibility = View.GONE
-                binding.dataLayout.visibility = View.GONE
-                binding.successLayout.visibility = View.VISIBLE
-            }.addOnFailureListener{
-                binding.loaderLayout.visibility = View.GONE
-                binding.dataLayout.visibility = View.VISIBLE
-                binding.successLayout.visibility = View.GONE
-                Toast.makeText(this, "Failed to upload!", Toast.LENGTH_SHORT).show()
+            FirebaseDatabase.getInstance().getReference("Student").child(user.uid.toString()).get().addOnSuccessListener {
+                if(it.exists()){
+                    var fName = it.child("firstName").value.toString()
+                    var lName = it.child("lastName").value.toString()
+
+                    FirebaseDatabase.getInstance().getReference("Module").child(moduleId).get().addOnSuccessListener {
+                        if(it.exists()){
+                            var assignmentName = binding.assignmentName.text.toString()
+
+                            var submit = Submit(moduleId,assignmentId,submitId,user.uid.toString(),currentTime.toString(),currentDate.toString(),"n/a","pending","$fName $lName",assignmentName,"0")
+                            FirebaseDatabase.getInstance().getReference("Submit").child(submitId).setValue(submit).addOnSuccessListener {
+                                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                                binding.loaderLayout.visibility = View.GONE
+                                binding.dataLayout.visibility = View.GONE
+                                binding.successLayout.visibility = View.VISIBLE
+                            }.addOnFailureListener{
+                                binding.loaderLayout.visibility = View.GONE
+                                binding.dataLayout.visibility = View.VISIBLE
+                                binding.successLayout.visibility = View.GONE
+                                Toast.makeText(this, "Failed to upload!", Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+                    }
+
+                }
             }
 
         }else{
