@@ -57,6 +57,7 @@ class YourGrades : AppCompatActivity() {
                         gradeRecyclerView.adapter = YourGradeAdapter(gradeList,this@YourGrades)
                         binding.dataLayout.visibility = View.VISIBLE
                         binding.loaderLayout.visibility = View.GONE
+                        cal()
                     }else{
                         binding.dataLayout.visibility = View.GONE
                         binding.loaderLayout.visibility = View.GONE
@@ -68,6 +69,22 @@ class YourGrades : AppCompatActivity() {
                 }
             })
     }
+
+    private fun cal(){
+        for(grade in gradeList){
+            var marks = grade.marks?.toInt()
+            var outOf = grade.outOff?.toInt()
+
+            var x = 100 / outOf!!
+            var fmarks = marks!! * x
+            var total = 0
+            total += fmarks
+
+            var average = total / gradeList.size
+            binding.totalText.text = "Your Average : $average/100"
+        }
+    }
+
     fun onItemClick(position: Int) {
         var current = gradeList[position]
         var intent = Intent(this,ModuleItemView::class.java).also {

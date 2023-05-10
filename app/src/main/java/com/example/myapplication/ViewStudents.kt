@@ -65,6 +65,12 @@ class ViewStudents : AppCompatActivity() {
         })
     }
     fun onItemClick(position: Int) {
+        var current = studentArrayList[position]
+        var intent = Intent(this,ViewStudent::class.java).also {
+            it.putExtra("studentId",current.studentId)
+        }
+        startActivity(intent)
+        finish()
     }
 
 }
