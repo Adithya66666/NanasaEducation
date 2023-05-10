@@ -35,9 +35,12 @@ class ModuleItemView : AppCompatActivity() {
         if(userType.toString() == "Student"){
             binding.moduleActions.visibility = View.GONE
             binding.delete.visibility = View.GONE
+            binding.moduleStudentActions.visibility = View.VISIBLE
+
         }else if(userType.toString() == "Teacher"){
             binding.moduleActions.visibility = View.VISIBLE
             binding.delete.visibility = View.VISIBLE
+            binding.moduleStudentActions.visibility = View.GONE
         }
 
         currentUserType = userType.toString()
@@ -67,6 +70,23 @@ class ModuleItemView : AppCompatActivity() {
                 it.putExtra("moduleId",moduleId.toString())
             }
             startActivity(intent)
+        }
+        binding.assignment.setOnClickListener{
+            var intent = Intent(this,Assignment::class.java).also {
+                it.putExtra("moduleId",moduleId.toString())
+                it.putExtra("userType",userType.toString())
+            }
+            startActivity(intent)
+        }
+        binding.studentAssignment.setOnClickListener{
+            var intent = Intent(this,Assignment::class.java).also {
+                it.putExtra("moduleId",moduleId.toString())
+                it.putExtra("userType",userType.toString())
+            }
+            startActivity(intent)
+        }
+        binding.grades.setOnClickListener{
+            //pass module id
         }
     }
 
